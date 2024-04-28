@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reach Out Student Mental Health Support</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Responsive-->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}"> -->
+    <!-- fevicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/fevicon.png') }}" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.mCustomScrollbar.min.css') }}"> -->
+    <!-- owl stylesheets -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}"> -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.theme.default.min.css') }}"> -->
+    <!-- fancybox CSS -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" -->
+    <!-- media="screen"> -->
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/eliyantosarage/font-awesome-pro@main/fontawesome-pro-6.5.1-web/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#journal-table').DataTable();
+        });
+    </script>
+    <style>
+        .btn-primary {
+            width: 100%;
+            color: #ffffff;
+            background-color: #19e9d9;
+            text-align: center;
+            padding: 7px 0px;
+            border: 0;
+        }
+
+        .btn-primary:hover {
+            width: 100%;
+            color: #ffffff;
+            background-color: #45b9af;
+            text-align: center;
+            padding: 7px 0px;
+            border: 0;
+        }
+
+        .sidebar {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .tab-content {
+            padding: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="header_section">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href=".">
+                    <h2><b>Reach Out</b></h2>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-user" aria-hidden="true"></i> {{ userName }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href=".">Home</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+        <div class="container-fluid bg-white">
+            <div class="row">
+                <div class="col-md-3 sidebar">
+                    <div class="d-flex flex-column align-items-center mb-4">
+                        {% if userGender == 'male' %}
+                        <img src="{{ url_for('static', filename='images/profile-avatar.png') }}" alt="Profile"
+                            class="rounded-circle mb-1" style="max-width:100px">
+
+                        {% else %}
+                        <img src="{{ url_for('static', filename='images/profile-avatar-girl.png') }}" alt="Profile"
+                            class="rounded-circle mb-1" style="max-width:100px">
+                        {% endif %}
+                        <h5 class="fw-bold mb-1">{{userName}}</h5>
+                        <p class="my-0 text-muted">{{userEmail}}</p>
+                        <p class="my-0 text-muted">Age : {{userAge}}</p>
+                    </div>
+                    <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="journal-tab" data-toggle="tab" href="#journal" role="tab"
+                                aria-controls="journal" aria-selected="false">Journal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab"
+                                aria-controls="appointments" aria-selected="false">Appointments</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card mb-4" style="background-color: #f8e9d6;">
+                                        <div class="card-header" style="background-color: #f0d2a3;">
+                                            <h4 class="card-title">Quote of the day</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <blockquote class="blockquote">
+                                                <span class="mb-3">"{{ quote }}"</span>
+                                                <footer class="blockquote-footer mt-3">{{ author }}</footer>
+                                            </blockquote>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-4" style="background-color: #e0f4ff;">
+                                        <div class="card-header" style="background-color: #b3e6ff;">
+                                            <h4 class="card-title">Today's Mood</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            {% if mood|length > 0 %}
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+                                                        {% for item in mood %}
+                                                        {% if item.name == 'stress' %}
+                                                        <tr>
+                                                            <td width="35%">
+                                                                <span class="badge bg-danger rounded-pill me-2">1</span>
+                                                                Stress
+                                                            </td>
+                                                            <td>
+                                                                <div class="progress" style="height: 20px;">
+                                                                    <div class="progress-bar bg-danger"
+                                                                        role="progressbar"
+                                                                        style="width: {{item.value/5*100}}%;"
+                                                                        aria-valuenow="10" aria-valuemin="1"
+                                                                        aria-valuemax="5"></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {% elif item.name == 'anxiety' %}
+                                                        <tr>
+                                                            <td>
+                                                                <span
+                                                                    class="badge bg-warning rounded-pill me-2">2</span>
+                                                                Anxiety
+                                                            </td>
+                                                            <td>
+                                                                <div class="progress" style="height: 20px;">
+                                                                    <div class="progress-bar bg-warning"
+                                                                        role="progressbar"
+                                                                        style="width: {{item.value/5*100}}%;"
+                                                                        aria-valuenow="20" aria-valuemin="1"
+                                                                        aria-valuemax="5"></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {% elif item.name == 'depression' %}
+                                                        <tr>
+                                                            <td>
+                                                                <span class="badge bg-info rounded-pill me-2">3</span>
+                                                                Depression
+                                                            </td>
+                                                            <td>
+                                                                <div class="progress" style="height: 20px;">
+                                                                    <div class="progress-bar bg-info" role="progressbar"
+                                                                        style="width: {{item.value/5*100}}%;"
+                                                                        aria-valuenow="40" aria-valuemin="1"
+                                                                        aria-valuemax="5"></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {% elif item.name == 'sleep' %}
+                                                        <tr>
+                                                            <td>
+                                                                <span
+                                                                    class="badge bg-primary rounded-pill me-2">4</span>
+                                                                Sleep
+                                                            </td>
+                                                            <td>
+                                                                <div class="progress" style="height: 20px;">
+                                                                    <div class="progress-bar bg-primary"
+                                                                        role="progressbar"
+                                                                        style="width: {{item.value/5*100}}%;"
+                                                                        aria-valuenow="100" aria-valuemin="1"
+                                                                        aria-valuemax="5"></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {% elif item.name == 'social' %}
+                                                        <tr>
+                                                            <td>
+                                                                <span
+                                                                    class="badge bg-success rounded-pill me-2">5</span>
+                                                                Social
+                                                            </td>
+                                                            <td>
+                                                                <div class="progress" style="height: 20px;">
+                                                                    <div class="progress-bar bg-success"
+                                                                        role="progressbar"
+                                                                        style="width: {{item.value/5*100}}%;"
+                                                                        aria-valuenow="50" aria-valuemin="1"
+                                                                        aria-valuemax="5"></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            {% else %}
+                                            <a class="btn btn-primary" href="moodRecommendation">Record Today's Mood</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-4" style="background-color: #e0ffe0;">
+                                        <div class="card-header" style="background-color: #b3ffb3;">
+
+                                            <h4 class="card-title">Mood recommendations</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            {% set recommendation_item = mood|selectattr("name", "equalto",
+                                            "recommendation")|first %}
+                                            {% if mood|length > 0 %}
+                                            <ul class="list-unstyled">
+                                                {% for icon, text in recommendation_item.value %}
+                                                <li class="mb-2">
+                                                    <span class="mr-2">&nbsp;&nbsp;&nbsp;&nbsp;<i class="{{ icon }} text-primary"></i>&nbsp;&nbsp;</span>
+                                                    {{ text }}
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                            <div class="d-flex justify-content-end">
+                                                <a href="moodReset" class="btn btn-danger" id="resetBtn">Reset Mood</a>
+                                            </div>
+                                            {% else %}
+                                            <p>Please take the mood survey to get personalized recommendations.</p>
+                                            {% endif %}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Home Card for Appointment -->
+                                <div class="col-md-6">
+                                    <div class="card" style="background-color: #e0e0ff;">
+                                        <div class="card-header" style="background-color: #b3b3ff;">
+                                            <h4 class="card-title">Book Appointment</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            {% if appointment %}
+                                            {% if appointment.status == 'pending' %}
+                                            <p>Your appointment request is pending approval.</p>
+                                            {% elif appointment.status == 'confirmed' %}
+                                            <p>Your appointment has been confirmed for {{
+                                                appointment.AppDate.strftime('%B %d, %Y') }}.</p>
+                                            {% elif appointment.status == 'completed' %}
+                                            <p>Your appointment has been completed.</p>
+                                            {% endif %}
+                                            {% else %}
+                                            <p>Schedule an appointment with the counselor for personalized support.</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card" style="background-color: #ffe0e0;">
+                                        <div class="card-header" style="background-color: #ffb3b3;">
+                                            <h4 class="card-title">Today's Journal</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            {% if todayJournal %}
+                                            <p>You have completed today's journal entry.</p>
+                                            {% else %}
+                                            <p>You haven't completed today's journal entry yet.</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-4" style="background-color: #e0ffe0;">
+                                        <div class="card-header" style="background-color: #b3ffb3;">
+                                            <h4 class="card-title">Leave Feedback</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            {% if has_feedback %}
+                                            <p>Thank you for your feedback!</p>
+                                            {% else %}
+                                            <p>Share your thoughts and help us improve.</p>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#feedbackModal">
+                                                Leave Feedback
+                                            </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade " id="journal" role="tabpanel" aria-labelledby="journal-tab">
+                            <h2>Todays Journal</h2>
+                            <style>
+                                .journal-page {
+                                    background-color: #e0f4ff;
+                                    /* Light blue color */
+                                    border: 1px solid #b3e6ff;
+                                    /* Slightly darker blue border */
+                                }
+
+                                .submit-btn {
+                                    background-color: #e0f4ff;
+                                    /* Light blue color */
+                                    border: 1px solid #b3e6ff;
+                                    /* Slightly darker blue border */
+                                    color: #333;
+                                    /* Change text color to a darker shade */
+                                }
+
+                                .submit-btn:hover {
+                                    background-color: #b3e6ff;
+                                    /* Slightly darker blue on hover */
+                                }
+
+                                .journal-page {
+                                    background-color: #e0f4ff;
+                                    border: 1px solid #b3e6ff;
+                                    border-radius: 5px;
+                                    padding: 20px;
+                                    position: relative;
+                                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                }
+
+                                .date {
+                                    position: absolute;
+                                    top: 10px;
+                                    right: 20px;
+                                    font-family: 'Courier New', Courier, monospace;
+                                    font-size: 14px;
+                                    color: #666666;
+                                }
+
+                                .journal-entry {
+                                    width: 100%;
+                                    height: 300px;
+                                    border: none;
+                                    background-color: transparent;
+                                    font-family: 'Courier New', Courier, monospace;
+                                    font-size: 16px;
+                                    line-height: 1.5;
+                                    padding: 10px;
+                                    resize: none;
+                                    outline: none;
+                                }
+
+                                .ruled-lines {
+                                    height: 300px;
+                                    background-image: linear-gradient(to bottom, transparent 0, transparent calc(1.5rem - 1px), #b3e6ff calc(1.5rem - 1px), #b3e6ff 1.5rem);
+                                    /* Changed the color to #b3e6ff */
+                                    background-size: 100% 1.5rem;
+                                    margin-top: -300px;
+                                    pointer-events: none;
+                                }
+
+                                /* Scrollbar styles */
+                                .journal-entry::-webkit-scrollbar {
+                                    width: 12px;
+                                }
+
+                                .journal-entry::-webkit-scrollbar-track {
+                                    background-color: #f1f1f1;
+                                    border-radius: 6px;
+                                }
+
+                                .journal-entry::-webkit-scrollbar-thumb {
+                                    background-color: #c4c4c4;
+                                    border-radius: 6px;
+                                    border: 2px solid #f1f1f1;
+                                }
+
+                                .journal-entry::-webkit-scrollbar-thumb:hover {
+                                    background-color: #a8a8a8;
+                                }
+
+                                .old-journals {
+                                    margin-top: 30px;
+                                }
+
+                                .card {
+                                    margin-bottom: 20px;
+                                }
+
+                                .card-title {
+                                    font-family: 'Courier New', Courier, monospace;
+                                    font-size: 18px;
+                                }
+
+                                .card-text {
+                                    font-family: 'Courier New', Courier, monospace;
+                                    font-size: 14px;
+                                    line-height: 1.5;
+                                }
+
+                                .submit-btn {
+                                    font-family: 'Courier New', Courier, monospace;
+                                    background-color: #e0f4ff;
+                                    border: 1px solid #b3e6ff;
+                                    color: #333;
+                                    padding: 8px 16px;
+                                    border-radius: 4px;
+                                    transition: background-color 0.3s ease;
+                                }
+
+                                .submit-btn:hover {
+                                    background-color: #b3e6ff;
+                                }
+                            </style>
+                            <div class="container">
+                                <div class="journal-page">
+                                    <div class="date">
+                                        <span id="current-date"></span>
+                                    </div>
+                                    {% if todayJournal %}
+                                    {% for data in todayJournal %}
+                                    <form action="newJournal" method="POST">
+                                        <textarea class="journal-entry" placeholder="Write your thoughts here..."
+                                            name="entry">{{data.text}}</textarea>
+
+                                        <div class="ruled-lines"></div>
+                                        <button class="btn btn-primary submit-btn">Save Entry</button>
+                                    </form>
+                                    {% endfor %}
+                                    {% else %}
+                                    <form action="newJournal" method="POST">
+                                        <textarea class="journal-entry" placeholder="Write your thoughts here..."
+                                            name="entry"></textarea>
+
+                                        <div class="ruled-lines"></div>
+                                        <button class="btn btn-primary submit-btn">Save Entry</button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+
+
+                            </div>
+                            <hr>
+                            <h2>Previous Journals</h2>
+                            <table id="journal-table" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Entry</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for entry in entries %}
+                                    <tr>
+                                        <td>{{ entry.date }}</td>
+                                        <td>{{ entry.text }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                var currentPage = 1;
+                                var totalPages = 1;
+
+                                function loadEntries(page) {
+                                    $.ajax({
+                                        url: "{{ url_for('get_entries') }}",
+                                        data: { page: page },
+                                        type: 'GET',
+                                        success: function (data) {
+                                            $('#entries-container').html(data.entries_html);
+                                            updatePaginationControls(page, data.total_pages);
+                                        },
+                                        error: function () {
+                                            alert('Error loading entries');
+                                        }
+                                    });
+                                }
+
+                                function updatePaginationControls(page, totalPages) {
+                                    $('#pagination-controls').empty();
+
+                                    if (page > 1) {
+                                        $('#pagination-controls').append('<li class="page-item"><a class="page-link" href="#" data-page="' + (page - 1) + '"><span aria-hidden="true">&laquo;</span></a></li>');
+                                    } else {
+                                        $('#pagination-controls').append('<li class="page-item disabled"><span class="page-link">&laquo;</span></li>');
+                                    }
+
+                                    for (var i = 1; i <= totalPages; i++) {
+                                        if (i === page) {
+                                            $('#pagination-controls').append('<li class="page-item active"><span class="page-link">' + i + '</span></li>');
+                                        } else {
+                                            $('#pagination-controls').append('<li class="page-item"><a class="page-link" href="#" data-page="' + i + '">' + i + '</a></li>');
+                                        }
+                                    }
+
+                                    if (page < totalPages) {
+                                        $('#pagination-controls').append('<li class="page-item"><a class="page-link" href="#" data-page="' + (page + 1) + '"><span aria-hidden="true">&raquo;</span></a></li>');
+                                    } else {
+                                        $('#pagination-controls').append('<li class="page-item disabled"><span class="page-link">&raquo;</span></li>');
+                                    }
+
+                                    $('#pagination-controls').find('a.page-link').click(function (e) {
+                                        e.preventDefault();
+                                        var page = $(this).data('page');
+                                        loadEntries(page);
+                                    });
+                                }
+
+                                loadEntries(currentPage);
+                            });
+                            // Get the current date
+                            const currentDate = new Date();
+                            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                            const formattedDate = currentDate.toLocaleDateString('en-US', options);
+
+                            // Update the date element
+                            document.getElementById('current-date').textContent = formattedDate;
+                        </script>
+
+
+                        <!-- Appointment tab -->
+                        <div class="tab-pane fade" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
+                            <h2>Appointments</h2>
+
+                            {% if not appointment %}
+                            <div class="card m-4 mb-5">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title m-0">New Appointment</h4>
+                                </div>
+                                <form action="bookAppointment" method="POST">
+                                    <div class="card-body">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="Leave a comment here"
+                                                id="reason" name="reason" style="height: 150px" required></textarea>
+                                            <label for="reason">Reason for Appointment</label>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary mt-2" style="width:20%">Book
+                                            Appointment</button>
+                                    </div>
+                                </form>
+                            </div>
+                            {% endif %}
+
+                            {% if appointment %}
+                            <div class="card m-4 mb-5 pb-5">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h4 class="card-title m-0">Current Appointment</h4>
+                                    <form action="cancelAppointment" method="POST">
+                                        <input type="hidden" name="appointment_id" value="{{ appointment._id }}">
+                                        <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                    </form>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Reason:</strong> {{ appointment.reason }}</p>
+                                    <p><strong>Status:</strong> {{ appointment.status }}</p>
+                                    {% if appointment.status == 'pending' %}
+                                    <p>Your appointment request is pending approval. Please wait for confirmation.</p>
+                                    {% elif appointment.status == 'confirmed' %}
+                                    <p>Your appointment has been confirmed for {{ appointment.AppDate.strftime('%B %d,
+                                        %Y,
+                                        %I:%M %p') }}.</p>
+                                    {% elif appointment.status == 'completed' %}
+                                    <p>Your appointment has been completed.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Table for completed appointments -->
+                            <div class="card m-4 mb-5 pb-5">
+                                <div class="card-header">
+                                    <h4 class="card-title">Previous Appointments</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% if completed_appointments%}
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Reason</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for completed_appointment in completed_appointments %}
+                                            <tr>
+                                                <td>{{ completed_appointment.AppDate.strftime('%B %d, %Y, %I:%M %p') }}
+                                                </td>
+                                                <td>{{ completed_appointment.reason }}</td>
+                                                <td>
+                                                    <form action="generateReport" method="POST">
+                                                        <input type="hidden" name="appointment_id"
+                                                            value="{{ completed_appointment._id }}">
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-sm reportModalBtn"
+                                                            data-toggle="modal" data-target="#reportModal"
+                                                            data-student-notes="{{ completed_appointment.student_notes }}">View
+                                                            Report</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <!-- Report Modal -->
+                                    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="reportModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="reportModalLabel">Counsellor Report</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p id="reportContent"></p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $('.reportModalBtn').click(function (event) {
+                                            var button = $(event.currentTarget); // Button that triggered the modal
+                                            var studentNotes = button.data('student-notes'); // Retrieve the student notes data
+                                            console.log(studentNotes)
+                                            var modalBody = $(this).find('.modal-body');
+                                            $('#reportContent').html(studentNotes);
+                                            $('#reportModal').modal('show');
+                                        });
+                                    </script>
+                                    {% else %}
+                                    <p>No completed appointments found.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- journal add modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Alert</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Your journal entry has been saved successfully!
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- appointmentModal add modal -->
+                        <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Alert</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Thank you for booking your appointment. Your request has been successfully
+                                        submitted. Please await confirmation from the counselor.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer section start -->
+        <div class="footer_section layout_padding" id="contact">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-sm-6">
+                        <h1 class="adderss_text">Contact Us</h1>
+                        <div class="map_icon"><img src="{{ url_for('static', filename='images/map-icon.png') }}"><span
+                                class="paddlin_left_0">University Campus, Main Rd.</span></div>
+                        <div class="map_icon"><img src="{{ url_for('static', filename='images/call-icon.png') }}"><span
+                                class="paddlin_left_0">+1 (555) 123-4567</span></div>
+                        <div class="map_icon"><img src="{{ url_for('static', filename='images/mail-icon.png') }}"><span
+                                class="paddlin_left_0">support@Reach Out.edu</span></div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <h1 class="adderss_text">Resources</h1>
+                        <div class="hiphop_text_1">Explore our comprehensive collection of mental health resources,
+                            including articles, videos, and self-care activities designed to support your well-being.
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <h1 class="adderss_text">Useful Links</h1>
+                        <div class="Useful_text">
+                            <ul>
+                                <li><a href="#" style="color:white!important">About Us</a></li>
+                                <li><a href="#" style="color:white!important">Join Now</a></li>
+                                <li><a href="#" style="color:white!important">Privacy Policy</a></li>
+                                <li><a href="#" style="color:white!important">Terms of Use</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6">
+                        <h1 class="adderss_text">Newsletter</h1>
+                        <input type="text" class="Enter_text" placeholder="Enter your Email" name="Enter your Email">
+                        <div class="subscribe_bt"><a href="#">Subscribe</a></div>
+                        <div class="social_icon">
+                            <ul>
+                                <li><a href="#"><img src="{{ url_for('static', filename='images/fb-icon.png') }}"></a>
+                                </li>
+                                <li><a href="#"><img
+                                            src="{{ url_for('static', filename='images/twitter-icon.png') }}"></a>
+                                </li>
+                                <li><a href="#"><img
+                                            src="{{ url_for('static', filename='images/linkedin-icon.png') }}"></a>
+                                </li>
+                                <li><a href="#"><img
+                                            src="{{ url_for('static', filename='images/instagram-icon.png') }}"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer section end -->
+
+        <!-- Feedback Modal -->
+        <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="feedbackModalLabel">Leave Feedback</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="rating">
+                            <span class="star" data-value="1"><i class="fas fa-star"></i></span>
+                            <span class="star" data-value="2"><i class="fas fa-star"></i></span>
+                            <span class="star" data-value="3"><i class="fas fa-star"></i></span>
+                            <span class="star" data-value="4"><i class="fas fa-star"></i></span>
+                            <span class="star" data-value="5"><i class="fas fa-star"></i></span>
+                        </div>
+                        <textarea id="feedbackText" class="form-control mt-3" rows="3"
+                            placeholder="Write your feedback here..."></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="submitFeedback">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            .rating {
+                unicode-bidi: bidi-override;
+                direction: ltr;
+                font-size: 2rem;
+            }
+
+            .rating>span {
+                display: inline-block;
+                position: relative;
+                width: 1.1em;
+                cursor: pointer;
+                color: #ddd;
+            }
+
+            .rating>span:hover {
+                color: gold;
+            }
+
+            .selected {
+                color: gold !important;
+            }
+        </style>
+        <script>
+            $(document).ready(function () {
+                // Add click event listener to stars
+                $('.rating .star').click(function () {
+                    $('.rating .star').removeClass('selected');
+                    $(this).addClass('selected');
+                    $(this).prevAll('.star').addClass('selected');
+                    $(this).nextAll('.star').removeClass('selected');
+                });
+
+                $('.rating .star').hover(function () {
+                    $('.rating .star').removeClass('selected');
+                    $(this).addClass('selected');
+                    $(this).prevAll('.star').addClass('selected');
+                    $(this).nextAll('.star').removeClass('selected');
+                });
+
+                $('#submitFeedback').click(function () {
+                    var feedback = $('#feedbackText').val();
+                    var rating = $('.rating .star.selected').length;
+                    if (rating && feedback) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/submit_feedback',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                rating: rating,
+                                feedback: feedback
+                            }),
+                            success: function (response) {
+                                // Handle the server response
+                                // Reset the form or show a success message
+                                $('#feedbackModal').modal('hide');
+                                $('#feedbackText').val('');
+                                $('.rating .star').removeClass('selected');
+                                $('.feedback').html('<p>Thank you for your feedback!</p>');
+                                location.reload();
+                            },
+                            error: function (xhr, status, error) {
+                                // Handle the error
+                                console.error(error);
+                            }
+                        });
+                    } else {
+                        // Show an error message if rating or feedback is missing
+                        alert('Please provide a rating and feedback.');
+                    }
+                });
+            });
+        </script>
+        <!-- copyright section start -->
+        <div class="copyright_section">
+            <div class="container">
+                <p class="copyright_text">2019 All Rights Reserved. Design by <a href="#">Reach Out</a></p>
+            </div>
+        </div>
+
+        <style>
+            .btn-chat {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 9999;
+            }
+
+            .tooltip {
+                font-family: 'Roboto', sans-serif;
+                /* Use a modern font */
+                font-size: 14px;
+                background-color: #333;
+                /* Dark background color */
+                color: #fff;
+                /* White text color */
+                border-radius: 4px;
+                /* Rounded corners */
+                padding: 8px 12px;
+                /* Some padding for spacing */
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+                /* Add a subtle shadow */
+                opacity: 0.9;
+                /* Make the tooltip slightly transparent */
+            }
+
+            .tooltip .tooltip-arrow {
+                border-left-color: #333;
+                /* Match the tooltip background color */
+            }
+
+            .tooltip.bs-tooltip-left .tooltip-arrow {
+                border-right-color: #333;
+                /* Match the tooltip background color */
+            }
+        </style>
+        <!-- AI Chat Button -->
+        <div class="btn-chat">
+            <a href="/chat" class="btn btn-primary rounded-circle p-3" data-bs-toggle="tooltip" data-bs-placement="left"
+                title="AI Chat">
+                <i class="fas fa-comment-dots fa-lg"></i>
+            </a>
+        </div>
+
+        <!-- Existing JavaScript -->
+        <script>
+            $(function () {
+                $('[data-bs-toggle="tooltip"]').tooltip();
+            });
+        </script>
+
+        <!-- Custom JavaScript -->
+        <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/plugin.js') }}"></script> -->
+        <!-- sidebar -->
+        <!-- <script src="{{ url_for('static', filename='js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/custom.js') }}"></script> -->
+        <!-- javascript -->
+        <!-- <script src="{{ url_for('static', filename='js/owl.carousel.js') }}"></script> -->
+        <!-- jQuery -->
+
+
+
+        <!-- Bootstrap JavaScript Bundle -->
+
+
+        <!-- Custom JavaScript -->
+        <!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
+
+        <!-- Popper.js -->
+
+        <script>
+            $(function () {
+                $('#myTab a').on('click', function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                });
+            });
+        </script>
+        <script>
+            $(function () {
+                $('#home-tab-btn').on('click', function () {
+                    $('#home').tab('show');
+                });
+                $('#journal-tab-btn').on('click', function () {
+                    $('#journal').tab('show');
+                });
+                $('#appointments-tab-btn').on('click', function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                });
+            });
+        </script>
+
+
+        <!-- Your HTML content -->
+        {% if success %}
+        <script>
+            $(document).ready(function () {
+                $('#exampleModal').modal('show');
+            });
+        </script>
+        {% endif %}
+        {% if successAppoin %}
+        <script>
+            $(document).ready(function () {
+                $('#appointmentModal').modal('show');
+            });
+        </script>
+        {% endif %}
+</body>
+
+</html>
